@@ -3,38 +3,37 @@ import { useState } from 'react'
 import { auth } from '../firebase-config';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
-export default function LoginStudent() {
-  const [rollno,setRollno]=useState("");
-  const [password,setPassword]=useState("");
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try{
-      await signInWithEmailAndPassword(auth, rollno, password);
-      alert("Login successful!");
-      navigate("/studentHome");
-    }catch(error){
-      alert("wrong rollno/password");
-    }
-  };
+export default function LoginTeacher() {
+      const [rollno,setRollno]=useState("");
+      const [password,setPassword]=useState("");
+      const navigate = useNavigate();
 
+       const handleSubmit = async (e) => {
+          e.preventDefault();
+          try{
+            await signInWithEmailAndPassword(auth, rollno, password);
+            alert("Login successful!");
+            navigate("/teacherHome");
+          }catch(error){
+            alert("wrong email/password");
+          }
+        };
+    
   return (
-  <>
-  
-  <section id='logins-page'>
+   <>
+   <section id='logins-page'>
     <div className="container">
         <div className="row">
            
             <div className="col-12 mt-3 ">
             <div className="title">
-                <h2 className='text-center'>LOGIN STUDENT</h2>
+                <h2 className='text-center'>LOGIN TEACHER</h2>
             </div>
             <form onSubmit={handleSubmit }>
   <div class="mb-3">
-    <label for="exampleRollNo" class="form-label">RollNo</label>
+    <label for="exampleRollNo" class="form-label">EmailID:</label>
     <input type="text" class="form-control" onChange={(e)=>setRollno(e.target.value)} id="exampleRollNo" aria-describedby="emailHelp"/>
 
   </div>
@@ -44,14 +43,13 @@ export default function LoginStudent() {
   </div>
   
   <button type="submit" class="btn btn-primary">Login</button>
-    <Link to="/LoginTeacher"> Are You A Teacher?</Link>
+
 </form>
             </div>
         </div>
     </div>
   </section>
-  
-  
-  </>
+   
+   </>
   )
 }
