@@ -44,7 +44,7 @@ export default function LoginStudent() {
   </div>
   
   <button type="submit" style={{width:"124px",height:"52px",backgroundColor:"#5038ED",display:"block",margin:"auto"}} class="btn btn-primary">Login</button>
-    {/* <Link to="/LoginTeacher"> Are You A Teacher?</Link> */}
+    <Link to="/LoginTeacher"> Are You A Teacher?</Link>
 </form>
             </div>
         </div>
