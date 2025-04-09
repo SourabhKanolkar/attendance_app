@@ -58,7 +58,7 @@ export default function HomeStudent() {
                   <p className="card-text">Year: {studentData.year}</p>
                   <p className="card-text">Total Attendance:</p>
                   <a href="#" className="btn btn-primary d-flex justify-content-center">
-                    {studentData.attendance}%
+                    {/* {studentData.attendance}% */}
                   </a>
                 </div>
               </div>

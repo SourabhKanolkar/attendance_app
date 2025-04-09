@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { db } from "../firebase-config";
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc,doc,updateDoc,arrayUnion } from "firebase/firestore";
 
 export default function HomeTeacher() {
   const [classValue, setClassValue] = useState("");
@@ -9,7 +9,10 @@ export default function HomeTeacher() {
   const [date, setDate] = useState("");
   const [subject, setSubject] = useState("");
   const [students, setStudents] = useState([]);
+  const [BatchYear,setBatchYear]=useState("");
   const [selectedRollNos, setSelectedRollNos] = useState([]);
+
+  var D= new Date(); // this will be used to get the current year
 
   // Function to handle search
   const handleSearch = async (e) => {
@@ -57,24 +60,39 @@ export default function HomeTeacher() {
       alert("Please select Class, Division, Date, and Subject.");
       return;
     }
-
+  
     if (selectedRollNos.length === 0) {
       alert("Please select at least one student.");
       return;
     }
-
+  
     try {
+      // 1. Add to "attendance" collection (as before)
       await addDoc(collection(db, "attendance"), {
         class: classValue,
         division: division,
         date: date,
-        subject: subject, // Added subject
-        rollNos: selectedRollNos, // Store roll numbers as an array
+        subject: subject,
+        rollNos: selectedRollNos,
       });
-
+  
+      // 2. Update each student's document to include attendance info
+      for (const rollNo of selectedRollNos) {
+        const student = students.find((s) => s.rollno === rollNo);
+        if (student) {
+          const studentRef = doc(db, "students", student.id);
+          await updateDoc(studentRef, {
+            attendance: arrayUnion({
+              date: date,
+              subject: subject,
+            }),
+          });
+        }
+      }
+  
       alert("Attendance submitted successfully!");
-      setSelectedRollNos([]); // Clear selections after submission
-      setSubject(""); // Clear subject input
+      setSelectedRollNos([]);
+      setSubject("");
     } catch (error) {
       console.error("Error submitting attendance: ", error);
     }
