@@ -1,0 +1,28 @@
+const [studentData, setStudentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      setLoading(true);
+      const user = auth.currentUser;
+
+      if (user) {
+        const studentEmail = user.email;
+        const q = query(collection(db, "students"), where("email", "==", studentEmail));
+
+        try {
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            const student = querySnapshot.docs[0].data();
+            setStudentData(student);
+          } else {
+            setStudentData(null);
+          }
+        } catch (error) {
+          console.error("Error fetching student data:", error);
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchStudentData();
+  }, []);

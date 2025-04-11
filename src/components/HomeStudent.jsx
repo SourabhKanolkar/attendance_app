@@ -3,69 +3,94 @@ import { useState,useEffect } from 'react'
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { auth,db } from '../firebase-config';
 export default function HomeStudent() {
+  
 
-  const [studentData, setStudentData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchStudentData = async () => {
-      setLoading(true);
-      const user = auth.currentUser;
 
-      if (user) {
-        const studentEmail = user.email;
-        const q = query(collection(db, "students"), where("email", "==", studentEmail));
 
-        try {
-          const querySnapshot = await getDocs(q);
-          if (!querySnapshot.empty) {
-            const student = querySnapshot.docs[0].data();
-            setStudentData(student);
-          } else {
-            setStudentData(null);
-          }
-        } catch (error) {
-          console.error("Error fetching student data:", error);
-        }
+    
+   const test=()=>{
+    let number= document.getElementById("number");
+    let counter=0;
+    setInterval(()=>{
+      if(counter==65){
+        clearInterval();
+      }else{
+        counter +=1;
+        number.innerHTML=counter+"%";
       }
-      setLoading(false);
-    };
+     
+    },20);
+   }
 
-    fetchStudentData();
-  }, []);
-
+  useEffect(()=>{
+    test();
+   
+  },[])
+  
   return (
    <>
    <section id="student-home-screen">
       <div className="container">
         <div className="row">
           <div className="title mt-3">
-            <h2 className="text-center">TOTAL ATTENDANCE</h2>
+            <h2 className="text-center">WELCOME  </h2>
           </div>
-          <div className="col-md-12">
-            {loading ? (
-              <p className="text-center">Loading...</p>
-            ) : studentData ? (
-              <div className="card" style={{ width: "18rem", display: "block", margin: "auto" }}>
-                <img
-                  src="https://i0.wp.com/rollercoasteryears.com/wp-content/uploads/Thrive-During-Finals-.jpg?resize=1000%2C667&ssl=1"
-                  className="card-img-top"
-                  alt="Student"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Name: {studentData.name}</h5>
-                  <p className="card-text">Class: {studentData.class}</p>
-                  <p className="card-text">Div: {studentData.div}</p>
-                  <p className="card-text">Year: {studentData.year}</p>
-                  <p className="card-text">Total Attendance:</p>
-                  <a href="#" className="btn btn-primary d-flex justify-content-center">
-                    {/* {studentData.attendance}% */}
-                  </a>
+       <div className="col-md-4">
+       <span className='text-center mb-3'>OVERALL ATTENDANCE</span>
+        <div className="total-attendance-overall" >
+       
+              <div className="outer">
+                <div className="inner">
+                  <div id="number">
+                    65%
+                  </div>
                 </div>
               </div>
-            ) : (
-              <p className="text-center">No student data found</p>
-            )}
-          </div>
+
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+         <defs>
+            <linearGradient id="GradientColor">
+               <stop offset="0%" stopColor="#e91e63" />
+               <stop offset="100%" stopColor="#673ab7" />
+            </linearGradient>
+         </defs>
+         <circle cx="80" cy="80" r="70" stroke-linecap="round" />
+ </svg>
+
+
+
+
+        </div>
+       </div>
+
+       <div className="col-md-6">
+       <div class="bg-white p-4 rounded-lg shadow w-75" style={{maxWidth:"300px"}}>
+        <h2 class="h5 font-weight-bold text-dark">262 issues total</h2>
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted">Simple</span>
+                <span class="text-muted">50%</span>
+            </div>
+            <div class="progress mb-3" style={{height: "10px"}}>
+                <div class="progress-bar bg-danger" role="progressbar" style={{width: "50%"}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted">Medium</span>
+                <span class="text-muted">25%</span>
+            </div>
+            <div class="progress mb-3" style={{height: "10px"}}>
+                <div class="progress-bar bg-primary" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted">Complex</span>
+                <span class="text-muted">10%</span>
+            </div>
+            <div class="progress" style={{height: "10px"}}>
+                <div class="progress-bar bg-pink" role="progressbar" style={{width: "10%"}} aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+       </div>
         </div>
       </div>
     </section>
