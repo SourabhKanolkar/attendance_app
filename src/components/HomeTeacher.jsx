@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../firebase-config";
 import { collection, query, where, getDocs, addDoc,doc,updateDoc,arrayUnion } from "firebase/firestore";
+import Navbar from "./Navbar";
 
 export default function HomeTeacher() {
   const [classValue, setClassValue] = useState("");
@@ -100,6 +101,7 @@ export default function HomeTeacher() {
 
   return (
     <>
+     <Navbar />
       <section id="teacher-home-page">
         <div className="container">
           <div className="row">
